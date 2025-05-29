@@ -1,0 +1,8 @@
+.select-css-selector-mouse {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  z-index: 999999;
+  pointer-events: none;
+}

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Select CSS Selector",
+  "version": "1.0",
+  "description": "A Chrome extension to select CSS selectors from web pages.",
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "icon.png"
+    },
+    "default_panel": "src/panel/panel.html"
+  },
+  "side_panel": {
+    "default_path": "src/panel/panel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content.js"],
+      "css": ["src/content.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "permissions": ["activeTab", "scripting", "sidePanel", "nativeMessaging"]
+}
