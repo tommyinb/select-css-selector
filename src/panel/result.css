@@ -1,0 +1,27 @@
+#result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+
+  .item {
+    display: flex;
+    gap: 0.5em;
+
+    .tag {
+      border-radius: 1em;
+      background-color: #eee;
+      padding: 0.2em 0.6em;
+      white-space: nowrap;
+      color: #888;
+    }
+
+    .text {
+      flex-shrink: 1;
+      padding: 0.2em;
+      color: #ccc;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}

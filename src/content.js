@@ -1,13 +1,19 @@
 const port = chrome.runtime.connect({ name: "CONTENT" });
 
+setInterval(() => port.postMessage({ type: "PING" }), 1000);
+
 port.onMessage.addListener((message) => {
   switch (message.type) {
-    case "PANEL_OPEN":
+    case "SELECT_ON":
       tryStart();
       break;
 
-    case "PANEL_CLOSE":
+    case "SELECT_OFF":
       tryStop();
+      break;
+
+    case "FILTER":
+      applyFilter(message.text);
       break;
   }
 });
@@ -50,6 +56,8 @@ function tryStart() {
     state.mousingElement.style.width = `${rect.width}px`;
     state.mousingElement.style.height = `${rect.height}px`;
     state.mousingElement.style.background = "rgba(0,0,255,0.5)";
+
+    tryPost("PREVIEW");
   };
   document.addEventListener("mousemove", state.mouseListener);
 
@@ -58,7 +66,7 @@ function tryStart() {
       return;
     }
 
-    tryPost();
+    tryPost("SELECT");
   };
   document.addEventListener("click", state.clickListener);
 
@@ -67,11 +75,11 @@ function tryStart() {
       return;
     }
 
-    tryPost();
+    tryPost("SELECT");
   };
   document.addEventListener("keydown", state.keyListener);
 
-  function tryPost() {
+  function tryPost(type) {
     if (!state.mousedElement) {
       return;
     }
@@ -83,13 +91,16 @@ function tryStart() {
         tagName: currentElement.tagName,
         id: currentElement.id,
         classList: Array.from(currentElement.classList),
+        index: [...(currentElement.parentNode?.childNodes ?? [])].indexOf(
+          currentElement
+        ),
         innerText: currentElement.innerText,
       });
 
       currentElement = currentElement.parentElement;
     }
 
-    port.postMessage({ type: "CHAIN", chain });
+    port.postMessage({ type, chain });
   }
 }
 
@@ -110,4 +121,17 @@ function tryStop() {
 
   document.removeEventListener("keydown", state.keyListener);
   state.keyListener = null;
+}
+
+function applyFilter(text) {
+  if (document.visibilityState !== "visible") {
+    return;
+  }
+
+  const queried = [...document.querySelectorAll(text)].map((element) => ({
+    tagName: element.tagName,
+    innerText: element.innerText,
+  }));
+
+  port.postMessage({ type: "RESULT", queried });
 }

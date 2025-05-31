@@ -1,0 +1,16 @@
+@import "./chain.css";
+@import "./filter.css";
+@import "./result.css";
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+h2 {
+  margin: 0;
+}

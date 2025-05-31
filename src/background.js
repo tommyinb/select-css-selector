@@ -8,10 +8,6 @@ chrome.runtime.onConnect.addListener((port) => {
   if (port.name === "PANEL") {
     panelPorts.push(port);
 
-    for (const contentPort of contentPorts) {
-      contentPort.postMessage({ type: "PANEL_OPEN" });
-    }
-
     port.onMessage.addListener((message) => {
       for (const contentPort of contentPorts) {
         contentPort.postMessage(message);
@@ -23,15 +19,15 @@ chrome.runtime.onConnect.addListener((port) => {
 
       if (panelPorts.length === 0) {
         for (const contentPort of contentPorts) {
-          contentPort.postMessage({ type: "PANEL_CLOSE" });
+          contentPort.postMessage({ type: "SELECT_OFF" });
         }
       }
     });
   } else if (port.name === "CONTENT") {
     contentPorts.push(port);
 
-    if (panelPorts.length > 0) {
-      port.postMessage({ type: "PANEL_OPEN" });
+    for (const panelPort of panelPorts) {
+      panelPort.postMessage({ type: "CONTENT_OPEN" });
     }
 
     port.onMessage.addListener((message) => {
