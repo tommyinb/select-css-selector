@@ -21,16 +21,25 @@ button.addEventListener("click", () => {
   }
 });
 
+const on = button.querySelector(".on");
+const off = button.querySelector(".off");
+
 function switchOn() {
   state.selecting = true;
+
   postMessage({ type: "SELECT_ON" });
-  button.textContent = "Selecting: ON";
+
+  on.classList.add("active");
+  off.classList.remove("active");
 }
 
 function switchOff() {
   state.selecting = false;
+
   postMessage({ type: "SELECT_OFF" });
-  button.textContent = "Selecting: OFF";
+
+  on.classList.remove("active");
+  off.classList.add("active");
 }
 
 addMessageListener("SELECT", () => {

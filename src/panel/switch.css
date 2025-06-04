@@ -1,0 +1,37 @@
+#switch {
+  display: flex;
+  gap: 0.5em;
+  cursor: pointer;
+
+  .text,
+  .on,
+  .off {
+    padding-top: 0.4em;
+    padding-bottom: 0.2em;
+  }
+
+  .on,
+  .off {
+    padding-left: 0.5em;
+    padding-right: 0.6em;
+    border-bottom: 1px solid #3334;
+    text-align: center;
+    color: #3334;
+
+    &.active {
+      color: #fff;
+    }
+  }
+
+  .on {
+    &.active {
+      background-color: #08f;
+    }
+  }
+
+  .off {
+    &.active {
+      background-color: #333;
+    }
+  }
+}
