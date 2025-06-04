@@ -9,6 +9,14 @@ export function render(input) {
     line.className = "line";
     output.appendChild(line);
 
+    if (i > 0) {
+      const arrow = document.createElement("div");
+      arrow.className = "arrow";
+      arrow.textContent = "> ";
+      addToggle(arrow);
+      line.appendChild(arrow);
+    }
+
     const tagName = document.createElement("div");
     tagName.className = "tag";
     tagName.textContent = item.tagName.toLowerCase();

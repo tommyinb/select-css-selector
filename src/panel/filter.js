@@ -22,5 +22,16 @@ export function refresh() {
 
   input.value = text.trim();
 
+  postFilter();
+}
+
+input.addEventListener("input", postFilter);
+
+function postFilter() {
+  const text = input.value.trim();
+  if (!text) {
+    return;
+  }
+
   postMessage({ type: "FILTER", text });
 }

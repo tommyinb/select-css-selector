@@ -71,7 +71,7 @@ function tryStart() {
   document.addEventListener("click", state.clickListener);
 
   state.keyListener = (event) => {
-    if (event.key !== "q") {
+    if (!["a", "A", "q", "Q", "Escape"].includes(event.key)) {
       return;
     }
 
@@ -128,7 +128,14 @@ function applyFilter(text) {
     return;
   }
 
-  const queried = [...document.querySelectorAll(text)].map((element) => ({
+  let selected;
+  try {
+    selected = [...document.querySelectorAll(text)];
+  } catch (error) {
+    return;
+  }
+
+  const queried = selected.map((element) => ({
     tagName: element.tagName,
     innerText: element.innerText,
   }));
