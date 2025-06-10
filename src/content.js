@@ -91,6 +91,17 @@ function tryStart() {
         tagName: currentElement.tagName,
         id: currentElement.id,
         classList: Array.from(currentElement.classList),
+        attributes: Array.from(currentElement.attributes)
+          .filter(
+            (attribute) =>
+              attribute.name !== "id" &&
+              attribute.name !== "class" &&
+              attribute.name !== "style"
+          )
+          .map((attribute) => ({
+            name: attribute.name,
+            value: attribute.value,
+          })),
         index: [...(currentElement.parentNode?.childNodes ?? [])].indexOf(
           currentElement
         ),

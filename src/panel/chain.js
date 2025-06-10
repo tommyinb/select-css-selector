@@ -9,27 +9,28 @@ export function render(input) {
     line.className = "line";
     output.appendChild(line);
 
+    const arrow = document.createElement("div");
+    arrow.className = "arrow";
+    arrow.textContent = "> ";
+    line.appendChild(arrow);
+
     if (i > 0) {
-      const arrow = document.createElement("div");
-      arrow.className = "arrow";
-      arrow.textContent = "> ";
       addToggle(arrow);
-      line.appendChild(arrow);
-    }
-
-    const tagName = document.createElement("div");
-    tagName.className = "tag";
-    tagName.textContent = item.tagName.toLowerCase();
-    addToggle(tagName);
-    line.appendChild(tagName);
-
-    if (i >= input.length - 1) {
-      tagName.classList.add("active");
     }
 
     const list = document.createElement("div");
     list.className = "list";
     line.appendChild(list);
+
+    const tagName = document.createElement("div");
+    tagName.className = "tag";
+    tagName.textContent = item.tagName.toLowerCase();
+    addToggle(tagName);
+    list.appendChild(tagName);
+
+    if (i >= input.length - 1) {
+      tagName.classList.add("active");
+    }
 
     if (item.id) {
       const id = document.createElement("div");
@@ -47,6 +48,16 @@ export function render(input) {
       list.appendChild(outputClass);
     }
 
+    for (const attribute of item.attributes) {
+      const outputAttribute = document.createElement("div");
+      outputAttribute.className = "attribute";
+      outputAttribute.textContent = `[${attribute.name}${
+        attribute.value ? `="${attribute.value}"` : ""
+      }]`;
+      addToggle(outputAttribute);
+      list.appendChild(outputAttribute);
+    }
+
     const index = document.createElement("div");
     index.className = "index";
     index.textContent = `:nth-child(${item.index + 1})`;
@@ -55,8 +66,12 @@ export function render(input) {
 
     const text = document.createElement("div");
     text.className = "text";
-    text.textContent = item.innerText;
     line.appendChild(text);
+
+    const content = document.createElement("div");
+    content.className = "content";
+    content.textContent = item.innerText;
+    text.appendChild(content);
   });
 
   return output;
